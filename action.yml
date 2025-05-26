@@ -1,0 +1,31 @@
+name: 'Checkout PEP 440'
+description: 'Checkout a Git repository using a PEP 440 version specifier. Requires Python with packaging installed.'
+inputs:
+  repository:
+    description: 'Repository name with owner. For example, actions/checkout'
+  specifier:
+    description: 'The PEP 440 version specifier to match against.'
+  path:
+    description: 'Relative path under $GITHUB_WORKSPACE to place the repository'
+outputs:
+  ref:
+    description: 'The tag that was checked out.'
+    value: ${{ steps.find-tag.outputs.tag }}
+runs:
+  using: "composite"
+  steps:
+    - name: Find Matching Tag
+      id: find-tag
+      shell: bash
+      run: |
+        tag=$(python -c "import find_tag; print(find_tag.find_tag('${{ inputs.repository }}', '${{ inputs.specifier }}'))")
+        echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+    - name: Checkout
+      id: checkout
+      shell: bash
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.repository }}
+        ref: ${{ steps.find-tag.outputs.tag }}
+        path: ${{ inputs.path }}
