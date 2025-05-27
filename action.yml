@@ -18,7 +18,7 @@ runs:
       id: find-tag
       shell: bash
       run: |
-        tag=$(python -c "import find_tag; print(find_tag.find_tag('${{ inputs.repository }}', '${{ inputs.specifier }}'))")
+        tag=$(python -c "import sys; sys.path.append(\"${{ github.action_path }}\"); import find_tag; print(find_tag.find_tag('${{ inputs.repository }}', '${{ inputs.specifier }}'))")
         echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
     - name: Checkout
