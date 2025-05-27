@@ -23,7 +23,6 @@ runs:
 
     - name: Checkout
       id: checkout
-      shell: bash
       uses: actions/checkout@v4
       with:
         repository: ${{ inputs.repository }}
