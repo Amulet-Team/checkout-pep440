@@ -7,6 +7,8 @@ inputs:
     description: 'The PEP 440 version specifier to match against.'
   path:
     description: 'Relative path under $GITHUB_WORKSPACE to place the repository'
+  rest-token:
+    description: 'The Github authentication token to use to access the REST API.'
 outputs:
   ref:
     description: 'The tag that was checked out.'
@@ -17,6 +19,8 @@ runs:
     - name: Find Matching Tag
       id: find-tag
       shell: bash
+      env:
+        REST_TOKEN: ${{ inputs.rest-token }}
       run: |
         tag=$(python -c "import sys; sys.path.append(r\"${{ github.action_path }}\"); import find_tag; print(find_tag.find_tag('${{ inputs.repository }}', '${{ inputs.specifier }}'))")
         echo "tag=$tag" >> "$GITHUB_OUTPUT"

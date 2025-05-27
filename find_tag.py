@@ -13,7 +13,13 @@ def _get_tags(repo: str) -> list[Version]:
     for page in itertools.count(1):
         query = urllib.parse.urlencode({"per_page": 100, "page": page})
         url = f"{github_api_url}/repos/{repo}/releases?{query}"
-        req = urllib.request.Request(url)
+        req = urllib.request.Request(
+            url,
+            headers={
+                "Accept": "application/vnd.github+json",
+                "Authorization": f"token {os.environ.get('REST_TOKEN')}",
+            },
+        )
         with urllib.request.urlopen(req) as resp:
             data = json.loads(resp.read().decode())
             if not data:
