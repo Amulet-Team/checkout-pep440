@@ -13,6 +13,9 @@ inputs:
   rest-token:
     description: 'The Github authentication token to use to access the REST API.'
     required: true
+  submodules:
+    description: 'Should submodules be cloned. false|true|recursive'
+    default: 'false'
 outputs:
   ref:
     description: 'The tag that was checked out.'
@@ -36,3 +39,4 @@ runs:
         repository: ${{ inputs.repository }}
         ref: ${{ steps.find-tag.outputs.tag }}
         path: ${{ inputs.path }}
+        submodules: ${{ inputs.submodules }}
