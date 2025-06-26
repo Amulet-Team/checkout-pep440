@@ -3,12 +3,16 @@ description: 'Checkout a Git repository using a PEP 440 version specifier. Requi
 inputs:
   repository:
     description: 'Repository name with owner. For example, actions/checkout'
+    required: true
   specifier:
     description: 'The PEP 440 version specifier to match against.'
+    required: true
   path:
     description: 'Relative path under $GITHUB_WORKSPACE to place the repository'
+    required: true
   rest-token:
     description: 'The Github authentication token to use to access the REST API.'
+    required: true
 outputs:
   ref:
     description: 'The tag that was checked out.'
